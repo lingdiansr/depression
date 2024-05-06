@@ -1,13 +1,25 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# 假设数据集已经被加载到DataFrame中，这里命名为df
-dataset_path = './dataset/'
-df = pd.read_csv(dataset_path+'b_depressed.csv')
+class DataSet():
+    def __init__(self):
+        # 加载数据集
+        self.dataset_path = './dataset/b_depressed.csv'
+        data = pd.read_csv(self.dataset_path)
 
-# 随机挑选300条数据作为测试集，其余作为训练集
-train_df, test_df = train_test_split(df, test_size=300, random_state=42)
+        # 随机选择20%的数据作为测试集，80%作为训练集
+        test_data, train_data = train_test_split(data, test_size=0.2, random_state=42)
 
-# 将训练集和测试集保存为CSV文件
-train_df.to_csv(dataset_path+'train.csv', index=False)
-test_df.to_csv(dataset_path+'test.csv', index=False)
+        # 将测试集和训练集分别保存为CSV文件
+        self.test_dataset_path = './dataset/test.csv'
+        self.train_dataset_path = './dataset/train.csv'
+
+        test_data.to_csv(self.test_dataset_path, index=False)
+        train_data.to_csv(self.train_dataset_path, index=False)
+
+        print(f"Test set saved to {self.test_dataset_path}")
+        print(f"Train set saved to {self.train_dataset_path}")
+    def get_trainset(self):
+        return self.train_dataset_path
+    def get_testset(self):
+        return self.test_dataset_path
